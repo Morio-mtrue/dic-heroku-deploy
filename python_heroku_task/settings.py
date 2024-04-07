@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-tlv)36c^h%me#0j)!67193036i0(q!%)rm_9k19_&32jf9!t3b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', '.vercel.app', '.now.sh']
 
 
 # Application definition
@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'python_heroku_task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'python_heroku_task',
-        'USER': 'sample_user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres.hzlwfzbthxmzccfpluoy',
+        'PASSWORD': 'Project_1PANDORO',
+        'HOST': 'aws-0-sa-east-1.pooler.supabase.com',
         'PORT': '5432',
     }
 }
