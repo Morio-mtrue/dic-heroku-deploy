@@ -32,9 +32,9 @@ SECRET_KEY = os.environ.get(
 # On Heroku DJANGO_DEBUG is left unset, so debug stays off there.
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.onrender.com', '.herokuapp.com', 'localhost', '127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://*.herokuapp.com']
 
 if not DEBUG:
     # Heroku terminates TLS at the router and forwards this header.
