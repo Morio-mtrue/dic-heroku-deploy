@@ -2,13 +2,34 @@
 
 Deployment to Heroku series assignment.
 
-The `python_heroku_task` blog application, prepared for Heroku.
+The `python_heroku_task` blog application, prepared for production.
+
+**Hosted on Render.** Heroku no longer offers free plans, so with the
+mentor's approval this is deployed to Render's free tier instead. The same
+production setup works on both; only the startup step differs.
+
+## Render
+
+| Setting | Value |
+| --- | --- |
+| Build command | `bash build.sh` |
+| Start command | `gunicorn python_heroku_task.wsgi` |
+| `DATABASE_URL` | Internal URL of the Render Postgres database |
+| `DJANGO_SECRET_KEY` | A generated random value |
+
+`build.sh` installs the requirements, runs `collectstatic` and runs
+`migrate`. Render's free instances have no shell and no pre-deploy hook, so
+the migrations run in the build step instead.
+
+Free services sleep after 15 minutes without traffic, so the first request
+after a pause takes around a minute while the instance starts.
 
 ## What was added
 
 | File | Purpose |
 | --- | --- |
-| `Procfile` | `release` runs the migrations on every deploy, `web` serves the app with gunicorn |
+| `build.sh` | Render build step: install, collectstatic, migrate |
+| `Procfile` | Heroku: `release` runs the migrations on every deploy, `web` serves the app with gunicorn |
 | `.python-version` | Pins the Python runtime |
 | `requirements.txt` | Django, gunicorn, psycopg, dj-database-url, whitenoise |
 | `.gitignore` | Keeps `__pycache__`, the sqlite file and `staticfiles/` out of the repo |
@@ -18,8 +39,8 @@ The `python_heroku_task` blog application, prepared for Heroku.
 - `SECRET_KEY` and `DEBUG` come from the environment. `DJANGO_DEBUG` is left
   unset on Heroku, so debug stays off there while local development is
   unchanged.
-- `ALLOWED_HOSTS` accepts `.herokuapp.com` plus localhost, and
-  `CSRF_TRUSTED_ORIGINS` trusts the Heroku domain.
+- `ALLOWED_HOSTS` accepts `.onrender.com` and `.herokuapp.com` plus
+  localhost, and `CSRF_TRUSTED_ORIGINS` trusts both domains.
 - `DATABASE_URL`, which Heroku sets when Postgres is attached, replaces the
   local database settings. SSL is required only for Postgres URLs so a local
   sqlite URL still works.
@@ -30,7 +51,7 @@ The `python_heroku_task` blog application, prepared for Heroku.
 
 `python manage.py check --deploy` reports no issues.
 
-## Deploy
+## Deploy to Heroku instead
 
 ```
 heroku login
